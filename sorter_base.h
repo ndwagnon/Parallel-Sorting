@@ -8,6 +8,8 @@ class SorterBase
 public:
     // Constructor and Destructor
     SorterBase();
+    SorterBase(int size);
+    SorterBase(int size, std::string filename);
     ~SorterBase();
 
     // Basic API calls for testing and reporting
@@ -30,7 +32,7 @@ public:
     virtual bool IsFilled() = 0;
     virtual bool IsDataRandom() = 0;
 
-private:
+protected:
     // Helper methods used in computations
     virtual double ComputeEfficiency() = 0;
     virtual double ComputeSpeedup() = 0;
@@ -42,4 +44,5 @@ private:
     bool isTimed;
     bool isMeasured;
     int numCores;
+    int size_;
 };
