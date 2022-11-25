@@ -41,6 +41,11 @@ SerialInsertionSort::SerialInsertionSort(int size, std::string filename) {
 // NOP Destructor
 SerialInsertionSort::~SerialInsertionSort() {}
 
+// Main function. Do the sorting
+void SerialInsertionSort::Sort() {
+
+}
+
 // Verifies that the underlying data is sorted
 // Also updates the isSorted member
 bool SerialInsertionSort::VerifySort() {
@@ -70,18 +75,60 @@ void SerialInsertionSort::Print() {
     std::cout << "End Data for Serial Insertion Sort" << std::endl;
 }
 
+// Report timing
+void SerialInsertionSort::ReportTiming() {
+
+}
+
+// Report efficiency
+void SerialInsertionSort::ReportEfficiency() {
+
+}
+
+// Report Speedup
+void SerialInsertionSort::ReportSpeedup() {
+
+}
+
 // Fill the data. If the filename is specified, ingest the data from a file
 void SerialInsertionSort::FillData(int size, std::string filename = "") {
     // Clear the data
     ClearData();
 
     if (filename != "") {
-
+        isDataRandom = false;
     } else {
         // Set the seed to the current time
         srand(time(0));
         for (int i = 0; i < size; i++) {
             data.push_back(rand());
         }
+        isDataRandom = true;
     }
+
+    isFilled = true;
+}
+
+// Clear the data
+void SerialInsertionSort::ClearData() {
+    data.clear();
+    size_ = 0;
+    isFilled = false;
+}
+
+// Getters
+bool SerialInsertionSort::IsSorted() { return isSorted; }
+bool SerialInsertionSort::IsTimed() { return isTimed; }
+bool SerialInsertionSort::IsFilled() { return isFilled; }
+bool SerialInsertionSort::IsMeasured() { return isMeasured; }
+bool SerialInsertionSort::IsDataRandom() { return isDataRandom; }
+int SerialInsertionSort::Size() { return size_; }
+
+// Helper Computation Methods
+double SerialInsertionSort::ComputeEfficiency() {
+
+}
+
+double SerialInsertionSort::ComputeSpeedup() {
+    
 }

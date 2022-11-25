@@ -28,7 +28,7 @@ public:
     bool IsSorted() override;
     bool IsTimed() override;
     bool IsMeasured() override;
-    bool Size() override;
+    int Size() override;
     bool IsFilled() override;
     bool IsDataRandom() override;
 
