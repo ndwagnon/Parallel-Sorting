@@ -11,7 +11,6 @@ SerialInsertionSort::SerialInsertionSort() {
     isFilled = false;
     isSorted = false;
     isTimed = false;
-    isMeasured = false;
 }
 
 // Size-Specified Constructor
@@ -20,7 +19,6 @@ SerialInsertionSort::SerialInsertionSort(int size) {
     isFilled = false;
     isSorted = false;
     isTimed = false;
-    isMeasured = false;
 
     // Fill the data
     FillData(size);
@@ -32,7 +30,6 @@ SerialInsertionSort::SerialInsertionSort(int size, std::string filename) {
     isFilled = false;
     isSorted = false;
     isTimed = false;
-    isMeasured = false;
 
     // Fill the data
     FillData(size, filename);
@@ -120,7 +117,6 @@ void SerialInsertionSort::ClearData() {
 bool SerialInsertionSort::IsSorted() { return isSorted; }
 bool SerialInsertionSort::IsTimed() { return isTimed; }
 bool SerialInsertionSort::IsFilled() { return isFilled; }
-bool SerialInsertionSort::IsMeasured() { return isMeasured; }
 bool SerialInsertionSort::IsDataRandom() { return isDataRandom; }
 int SerialInsertionSort::Size() { return size_; }
 
@@ -130,5 +126,5 @@ double SerialInsertionSort::ComputeEfficiency() {
 }
 
 double SerialInsertionSort::ComputeSpeedup() {
-    
+
 }

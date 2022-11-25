@@ -27,7 +27,6 @@ public:
     // about the underlying object
     bool IsSorted() override;
     bool IsTimed() override;
-    bool IsMeasured() override;
     int Size() override;
     bool IsFilled() override;
     bool IsDataRandom() override;

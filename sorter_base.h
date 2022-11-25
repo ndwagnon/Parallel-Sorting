@@ -27,7 +27,6 @@ public:
     // about the underlying object
     virtual bool IsSorted() = 0;
     virtual bool IsTimed() = 0;
-    virtual bool IsMeasured() = 0;
     virtual int Size() = 0;
     virtual bool IsFilled() = 0;
     virtual bool IsDataRandom() = 0;
@@ -42,7 +41,6 @@ protected:
     bool isFilled;
     bool isSorted;
     bool isTimed;
-    bool isMeasured;
     bool isDataRandom;
     int numCores;
     int size_;
