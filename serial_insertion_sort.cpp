@@ -2,45 +2,36 @@
 #include "serial_insertion_sort.h"
 
 // Standard library includes
+#include <chrono>
 #include <iostream>
 #include <random>
 
-// Min and maxes
-#define RAND_MINIMUM 0
-#define RAND_MAXIMUM 999
-
 // Standard Constuctor
 SerialInsertionSort::SerialInsertionSort() {
-    // Initialize all of the booleans to false
+    // Initialize all of the private data
     isFilled = false;
     isSorted = false;
-    isTimed = false;
+    numCores = 1;
+    size_ = 0;
+    exec_time_ms = 0;
     data = nullptr;
 }
 
 // Size-Specified Constructor
-SerialInsertionSort::SerialInsertionSort(int size) {
-    // Initialize all of the booleans to false
+SerialInsertionSort::SerialInsertionSort(int size, int min, int max) {
+    // Initialize all of the private data
     isFilled = false;
     isSorted = false;
-    isTimed = false;
+    numCores = 1;
+    size_ = 0;
+    exec_time_ms = 0;
+    data = nullptr;
 
     // Fill the data
-    FillData(size);
+    FillData(size, min, max);
 }
 
-// Size and Data Specified Constructor
-SerialInsertionSort::SerialInsertionSort(int size, std::string filename) {
-    // Initialize all of the booleans to false
-    isFilled = false;
-    isSorted = false;
-    isTimed = false;
-
-    // Fill the data
-    FillData(size, filename);
-}
-
-// NOP Destructor
+// Destructor
 SerialInsertionSort::~SerialInsertionSort() {
     // Free any leftover data
     if (data != nullptr) {
@@ -50,6 +41,9 @@ SerialInsertionSort::~SerialInsertionSort() {
 
 // Main function. Do the sorting
 void SerialInsertionSort::Sort() {
+    // Start the timer
+    auto t1 = std::chrono::high_resolution_clock::now();
+
     // Outer loop
     for (int i = 1; i < size_; i++) {
         int temp = data[i];
@@ -61,42 +55,48 @@ void SerialInsertionSort::Sort() {
         }
         data[j+1] = temp;
     }
+
+    // End the timer
+    auto t2 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> ms_double = t2 - t1;
+    exec_time_ms = ms_double.count();
+
+    // Data is now sorted
+    isSorted = true;
+    return;
 }
 
 // Verifies that the underlying data is sorted
 // Also updates the isSorted member
 bool SerialInsertionSort::VerifySort() {
-    // Null pointer check
-    if (data == nullptr) {
-        std::cout << "Cannot verify a null dataset" << std::endl;
-        isFilled = false;
-        return isFilled;
+    // Make sure data exists
+    if (!isFilled) {
+        std::cout << "Cannot verify an empty dataset" << std::endl;
+        isSorted = false;
+        return false;
     }
     // Iterate through the vector and make sure that
     // ascending order is true
     for (int i = 0; i < size_ - 1; i++) {
         if (data[i] > data[i+1]) {
-            std::cout << "Data is not in sorted order for Serial Insertion Sort" << std::endl;
             isSorted = false;
-            return isSorted;
+            return false;
         }
     }
 
     // If here, then the sort was successful
-    std::cout << "Data is in sorted order for Serial Insertion Sort" << std::endl;
     isSorted = true;
-
-    return isSorted;
+    return true;
 }
 
 // Prints the data
 void SerialInsertionSort::Print() {
-    // Null pointer check
-    if (data == nullptr) {
-        std::cout << "Cannot print a null dataset" << std::endl;
-        isFilled = false;
+    // Make sure data exists
+    if (!isFilled) {
+        std::cout << "Cannot print an empty dataset" << std::endl;
         return;
     }
+
     std::cout << "Begin Data for Serial Insertion Sort" << std::endl;
     // Loop through and print the data
     for (int i = 0; i < size_; i++) {
@@ -107,41 +107,40 @@ void SerialInsertionSort::Print() {
 
 // Report timing
 void SerialInsertionSort::ReportTiming() {
-
+    std::cout << "The most recent run used serial insertion sort to sort " <<
+        size_ << " values in " << exec_time_ms / 1000 << " seconds" << std::endl;
 }
 
 // Report efficiency
 void SerialInsertionSort::ReportEfficiency() {
-
+    std::cout << "Since serial insertion sort uses only 1 core, the efficiency is 1.0" << std::endl;
 }
 
 // Report Speedup
 void SerialInsertionSort::ReportSpeedup() {
-
+    std::cout << "Since serial insertion sort uses only 1 core, the speedup is 1.0" << std::endl;
 }
 
 // Fill the data. If the filename is specified, ingest the data from a file
-void SerialInsertionSort::FillData(int size, std::string filename) {
+void SerialInsertionSort::FillData(int size, int min, int max) {
     // Clear the data
     ClearData();
     data = new int[size];
 
-    if (filename != "") {
-        isDataRandom = false;
-    } else {
-        // Use C++ libraries to generate random values
-        std::random_device rd;
-        std::mt19937 rng(rd());
-        std::uniform_int_distribution<int> uni(RAND_MINIMUM, RAND_MAXIMUM);
+    // Use C++ libraries to generate random values
+    std::random_device rd;
+    std::mt19937 rng(rd());
+    std::uniform_int_distribution<int> uni(min, max);
 
-        for (int i = 0; i < size; i++) {
-            data[i] = uni(rng);
-        }
-        isDataRandom = true;
+    // Fill the data
+    for (int i = 0; i < size; i++) {
+        data[i] = uni(rng);
     }
 
+    // Update member variables
     size_ = size;
     isFilled = true;
+    isSorted = false;
 }
 
 // Clear the data
@@ -150,13 +149,12 @@ void SerialInsertionSort::ClearData() {
     data = nullptr;
     size_ = 0;
     isFilled = false;
+    isSorted = false;
 }
 
 // Getters
 bool SerialInsertionSort::IsSorted() { return isSorted; }
-bool SerialInsertionSort::IsTimed() { return isTimed; }
 bool SerialInsertionSort::IsFilled() { return isFilled; }
-bool SerialInsertionSort::IsDataRandom() { return isDataRandom; }
 int SerialInsertionSort::Size() { return size_; }
 
 // Helper Computation Methods

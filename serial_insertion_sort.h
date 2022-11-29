@@ -8,8 +8,7 @@ class SerialInsertionSort : public SorterBase {
 public:
     // Constructor and Destructor
     SerialInsertionSort();
-    SerialInsertionSort(int size);
-    SerialInsertionSort(int size, std::string filename);
+    SerialInsertionSort(int size, int min, int max);
     ~SerialInsertionSort();
 
     // Basic API calls for testing and reporting
@@ -20,16 +19,14 @@ public:
     void ReportTiming() override;
     void ReportEfficiency() override;
     void ReportSpeedup() override;
-    void FillData(int size, std::string fileName = "") override;
+    void FillData(int size, int min, int max) override;
     void ClearData() override;
 
     // Basic API calls for revealing data 
     // about the underlying object
     bool IsSorted() override;
-    bool IsTimed() override;
     int Size() override;
     bool IsFilled() override;
-    bool IsDataRandom() override;
 
 protected:
     // Helper methods used in computations
@@ -39,4 +36,7 @@ protected:
 private:
     // Underlying data
     int *data;
+
+    // Execution time
+    double exec_time_ms;
 };

@@ -6,8 +6,7 @@
 int main() {
     SerialInsertionSort mySorter;
 
-    mySorter.FillData(50);
-    mySorter.Print();
+    mySorter.FillData(50000, 0, 9999);
 
     if (mySorter.VerifySort()) {
         std::cout << "Sorted!" << std::endl;
@@ -17,12 +16,14 @@ int main() {
 
     std::cout << std::endl;
     mySorter.Sort();
-    mySorter.Print();
+    //mySorter.Print();
 
     if (mySorter.VerifySort()) {
         std::cout << "Sorted!" << std::endl;
     } else {
         std::cout << "Not Sorted!" << std::endl;
     }
+
+    mySorter.ReportTiming();
     return 0;
 }
