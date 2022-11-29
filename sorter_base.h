@@ -7,10 +7,10 @@ class SorterBase
 
 public:
     // Constructor and Destructor
-    SorterBase();
-    SorterBase(int size);
-    SorterBase(int size, std::string filename);
-    ~SorterBase();
+    // SorterBase();
+    // SorterBase(int size);
+    // SorterBase(int size, std::string filename);
+    // ~SorterBase();
 
     // Basic API calls for testing and reporting
     // results

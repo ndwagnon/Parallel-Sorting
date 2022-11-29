@@ -38,5 +38,5 @@ protected:
 
 private:
     // Underlying data
-    std::vector<int> data;
+    int *data;
 };
