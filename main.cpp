@@ -1,13 +1,14 @@
 //#include "serial_merge_sort.h"
-#include "serial_merge_sort.h"
-
+// #include "serial_merge_sort.h"
+#include "std_parallel_merge_sort.h"
 #include <iostream>
 
 
 int main() {
-    SerialMergeSort mySorter;
+    StdParallelMergeSort mySorter;
 
-    mySorter.FillData(5000000, 0, 9999);
+    mySorter.FillData(50, 0, 9999);
+    mySorter.SetNumCores(4);
 
     if (mySorter.VerifySort()) {
         std::cout << "Sorted!" << std::endl;
@@ -15,7 +16,7 @@ int main() {
         std::cout << "Not Sorted!" << std::endl;
     }
 
-    //mySorter.Print();
+    mySorter.Print();
 
     std::cout << std::endl;
     mySorter.Sort();
@@ -27,7 +28,7 @@ int main() {
         std::cout << "Not Sorted!" << std::endl;
     }
 
-    //mySorter.Print();
+    mySorter.Print();
 
     mySorter.ReportTiming();
     return 0;
