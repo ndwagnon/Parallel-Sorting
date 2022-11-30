@@ -1,5 +1,5 @@
 // Local includes
-#include "serial_merge_sort.h"
+#include "serial_quick_sort.h"
 
 // Standard library includes
 #include <chrono>
@@ -7,7 +7,7 @@
 #include <random>
 
 // Standard Constuctor
-SerialMergeSort::SerialMergeSort() {
+SerialQuickSort::SerialQuickSort() {
     // Initialize all of the private data
     isFilled = false;
     isSorted = false;
@@ -18,7 +18,7 @@ SerialMergeSort::SerialMergeSort() {
 }
 
 // Size-Specified Constructor
-SerialMergeSort::SerialMergeSort(int size, int min, int max) {
+SerialQuickSort::SerialQuickSort(int size, int min, int max) {
     // Initialize all of the private data
     isFilled = false;
     isSorted = false;
@@ -32,7 +32,7 @@ SerialMergeSort::SerialMergeSort(int size, int min, int max) {
 }
 
 // Destructor
-SerialMergeSort::~SerialMergeSort() {
+SerialQuickSort::~SerialQuickSort() {
     // Free any leftover data
     if (data != nullptr) {
         delete data;
@@ -40,12 +40,12 @@ SerialMergeSort::~SerialMergeSort() {
 }
 
 // Main function. Do the sorting
-void SerialMergeSort::Sort() {
+void SerialQuickSort::Sort() {
     // Start the timer
     auto t1 = std::chrono::high_resolution_clock::now();
 
     // Helper function does the work
-    MergeSortHelper(0, size_ - 1);
+    QuickSortHelper(0, size_ - 1);
 
     // End the timer
     auto t2 = std::chrono::high_resolution_clock::now();
@@ -59,7 +59,7 @@ void SerialMergeSort::Sort() {
 
 // Verifies that the underlying data is sorted
 // Also updates the isSorted member
-bool SerialMergeSort::VerifySort() {
+bool SerialQuickSort::VerifySort() {
     // Make sure data exists
     if (!isFilled) {
         std::cout << "Cannot verify an empty dataset" << std::endl;
@@ -81,39 +81,39 @@ bool SerialMergeSort::VerifySort() {
 }
 
 // Prints the data
-void SerialMergeSort::Print() {
+void SerialQuickSort::Print() {
     // Make sure data exists
     if (!isFilled) {
         std::cout << "Cannot print an empty dataset" << std::endl;
         return;
     }
 
-    std::cout << "Begin Data for Serial Merge Sort" << std::endl;
+    std::cout << "Begin Data for Serial Quick Sort" << std::endl;
     // Loop through and print the data
     for (int i = 0; i < size_; i++) {
         std::cout << data[i] << std::endl;
     }
-    std::cout << "End Data for Serial Merge Sort" << std::endl;
+    std::cout << "End Data for Serial Quick Sort" << std::endl;
 }
 
 // Report timing
-void SerialMergeSort::ReportTiming() {
-    std::cout << "The most recent run used serial Merge sort to sort " <<
+void SerialQuickSort::ReportTiming() {
+    std::cout << "The most recent run used serial quick sort to sort " <<
         size_ << " values in " << exec_time_ms / 1000 << " seconds" << std::endl;
 }
 
 // Report efficiency
-void SerialMergeSort::ReportEfficiency() {
-    std::cout << "Since serial Merge sort uses only 1 core, the efficiency is 1.0" << std::endl;
+void SerialQuickSort::ReportEfficiency() {
+    std::cout << "Since serial quick sort uses only 1 core, the efficiency is 1.0" << std::endl;
 }
 
 // Report Speedup
-void SerialMergeSort::ReportSpeedup() {
-    std::cout << "Since serial Merge sort uses only 1 core, the speedup is 1.0" << std::endl;
+void SerialQuickSort::ReportSpeedup() {
+    std::cout << "Since serial quick sort uses only 1 core, the speedup is 1.0" << std::endl;
 }
 
 // Fill the data. If the filename is specified, ingest the data from a file
-void SerialMergeSort::FillData(int size, int min, int max) {
+void SerialQuickSort::FillData(int size, int min, int max) {
     // Clear the data
     ClearData();
     data = new int[size];
@@ -135,7 +135,7 @@ void SerialMergeSort::FillData(int size, int min, int max) {
 }
 
 // Clear the data
-void SerialMergeSort::ClearData() {
+void SerialQuickSort::ClearData() {
     delete data;
     data = nullptr;
     size_ = 0;
@@ -144,75 +144,47 @@ void SerialMergeSort::ClearData() {
 }
 
 // Getters
-bool SerialMergeSort::IsSorted() { return isSorted; }
-bool SerialMergeSort::IsFilled() { return isFilled; }
-int SerialMergeSort::Size() { return size_; }
+bool SerialQuickSort::IsSorted() { return isSorted; }
+bool SerialQuickSort::IsFilled() { return isFilled; }
+int SerialQuickSort::Size() { return size_; }
 
 // Helper Computation Methods
-double SerialMergeSort::ComputeEfficiency() {
+double SerialQuickSort::ComputeEfficiency() {
     // Serial methods have an efficiency of 1 by default
     return 1.0;
 }
 
-double SerialMergeSort::ComputeSpeedup() {
+double SerialQuickSort::ComputeSpeedup() {
     // Serial methods have a speedup of 1 by default
     return 1.0;
 }
 
-void SerialMergeSort::MergeHalves(int start, int middle, int end) {
-    int half_one_size = middle - start + 1;
-    int half_two_size = end - middle;
-
-    int *temp1 = new int[half_one_size];
-    int *temp2 = new int[half_two_size];
-
-    for (int i = 0; i < half_one_size; i++)
-        temp1[i] = data[start + i];
-    for (int j = 0; j < half_two_size; j++)
-        temp2[j] = data[middle + 1 + j];
-
-    // indexing
-    int a, b, c;
-    a = 0;
-    b = 0;
-    c = start;
-
-    while (a < half_one_size && b < half_two_size) {
-        if (temp1[a] <= temp2[b]) {
-            data[c] = temp1[a];
-            a++;
-        } else {
-            data[c] = temp2[b];
-            b++;
-        }
-        c++;
-    }
-
-    while (a < half_one_size) {
-        data[c] = temp1[a];
-        a++;
-        c++;
-    }
-
-    while (b < half_two_size) {
-        data[c] = temp2[b];
-        b++;
-        c++;
-    }
-
-    // Free memory
-    delete temp1;
-    delete temp2;
+void SerialQuickSort::Swap(int indexA, int indexB) {
+    int temp = data[indexA];
+    data[indexA] = data[indexB];
+    data[indexB] = temp;
 }
 
-void SerialMergeSort::MergeSortHelper(int start, int end) {
-    if (start < end) {
-        int middle = start + (end - start) / 2;
+int SerialQuickSort::Partition(int low, int high) {
+    int pivot = data[high];
 
-        MergeSortHelper(start, middle);
-        MergeSortHelper(middle + 1, end);
+    int i = (low - 1);
 
-        // Merge the halves
-        MergeHalves(start, middle, end);
+    for (int j = low; j < high; j++) {
+        if (data[j] <= pivot) {
+            i++;
+            Swap(i, j);
+        }
+    }
+    Swap(i+1, high);
+
+    return (i + 1);
+}
+
+void SerialQuickSort::QuickSortHelper(int low, int high) {
+    if (low < high) {
+        int pivot = Partition(low, high);
+        QuickSortHelper(low, pivot - 1);
+        QuickSortHelper(pivot + 1, high);
     }
 }
