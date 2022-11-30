@@ -1,3 +1,4 @@
+//#include "serial_merge_sort.h"
 #include "serial_insertion_sort.h"
 
 #include <iostream>
@@ -14,6 +15,8 @@ int main() {
         std::cout << "Not Sorted!" << std::endl;
     }
 
+    //mySorter.Print();
+
     std::cout << std::endl;
     mySorter.Sort();
     //mySorter.Print();
@@ -23,6 +26,8 @@ int main() {
     } else {
         std::cout << "Not Sorted!" << std::endl;
     }
+
+    //mySorter.Print();
 
     mySorter.ReportTiming();
     return 0;
