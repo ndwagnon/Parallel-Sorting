@@ -44,6 +44,8 @@ private:
     void MergeSortHelper(int start, int end);
 
     void MergeSortThreadHelper(int tid);
+
+    void FinalMerge(int thread_factor, int aggregation_factor);
     
     // Underlying data
     int *data;

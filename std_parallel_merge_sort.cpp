@@ -55,6 +55,7 @@ void StdParallelMergeSort::Sort() {
     }
 
     // Merge the final halves
+    FinalMerge(numCores, 1);
 
     // End the timer
     auto t2 = std::chrono::high_resolution_clock::now();
@@ -244,3 +245,46 @@ void StdParallelMergeSort::MergeSortThreadHelper(int tid) {
     }
     MergeSortHelper(low, high);
 }
+
+void StdParallelMergeSort::FinalMerge(int thread_factor, int aggregation_factor) {
+    int numbers_per_thread = size_ / numCores;
+    for (int i = 0; i < thread_factor; i += 2) {
+        int left = i * (numbers_per_thread * aggregation_factor);
+        int right = ((i + 2) * numbers_per_thread * aggregation_factor) - 1;
+        int middle = left + (numbers_per_thread * aggregation_factor) - 1;
+        if (right >= size_)
+            right = size_ - 1;
+        if (thread_factor > 2) {
+            threads.at(i) = std::thread(&StdParallelMergeSort::MergeHalves, this, left, middle, right);
+        } else {
+            MergeHalves(left, middle, right);
+        }
+
+        MergeHalves(left, middle, right);
+        
+    }
+
+    // Join the threads
+    for (int i = 0; i < numCores; i++) {
+        if (threads.at(i).joinable())
+            threads.at(i).join();
+    }
+    if ((thread_factor / 2) >= 1) {
+        FinalMerge(thread_factor / 2, aggregation_factor * 2);
+    }
+}
+
+// void merge_sections_of_array(int arr[], int number, int aggregation) {
+//     for(int i = 0; i < number; i = i + 2) {
+//         int left = i * (NUMBERS_PER_THREAD * aggregation);
+//         int right = ((i + 2) * NUMBERS_PER_THREAD * aggregation) - 1;
+//         int middle = left + (NUMBERS_PER_THREAD * aggregation) - 1;
+//         if (right >= LENGTH) {
+//             right = LENGTH - 1;
+//         }
+//         merge(arr, left, middle, right);
+//     }
+//     if (number / 2 >= 1) {
+//         merge_sections_of_array(arr, number / 2, aggregation * 2);
+//     }
+// }
