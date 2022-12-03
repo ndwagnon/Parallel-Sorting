@@ -109,17 +109,8 @@ void StdParallelMergeSort::Print() {
 // Report timing
 void StdParallelMergeSort::ReportTiming() {
     std::cout << "The most recent run used parallel Merge sort to sort " <<
-        size_ << " values in " << exec_time_ms / 1000 << " seconds" << std::endl;
-}
-
-// Report efficiency
-void StdParallelMergeSort::ReportEfficiency() {
-    std::cout << "Since serial Merge sort uses only 1 core, the efficiency is 1.0" << std::endl;
-}
-
-// Report Speedup
-void StdParallelMergeSort::ReportSpeedup() {
-    std::cout << "Since serial Merge sort uses only 1 core, the speedup is 1.0" << std::endl;
+        size_ << " values in " << exec_time_ms / 1000 << " seconds" << 
+        " using " << numCores << " cores." << std::endl;
 }
 
 // Fill the data. If the filename is specified, ingest the data from a file
@@ -160,17 +151,6 @@ bool StdParallelMergeSort::IsSorted() { return isSorted; }
 bool StdParallelMergeSort::IsFilled() { return isFilled; }
 int StdParallelMergeSort::Size() { return size_; }
 int StdParallelMergeSort::NumCores() { return numCores; }
-
-// Helper Computation Methods
-double StdParallelMergeSort::ComputeEfficiency() {
-    // Serial methods have an efficiency of 1 by default
-    return 1.0;
-}
-
-double StdParallelMergeSort::ComputeSpeedup() {
-    // Serial methods have a speedup of 1 by default
-    return 1.0;
-}
 
 void StdParallelMergeSort::MergeHalves(int start, int middle, int end) {
     int half_one_size = middle - start + 1;
@@ -240,7 +220,7 @@ void StdParallelMergeSort::MergeSortThreadHelper(int tid) {
             high++;
         }
         while (high > (size_ - 1)) {
-            high --;
+            high--;
         }
     }
     MergeSortHelper(low, high);
@@ -259,8 +239,6 @@ void StdParallelMergeSort::FinalMerge(int thread_factor, int aggregation_factor)
         } else {
             MergeHalves(left, middle, right);
         }
-
-        MergeHalves(left, middle, right);
         
     }
 
@@ -273,18 +251,3 @@ void StdParallelMergeSort::FinalMerge(int thread_factor, int aggregation_factor)
         FinalMerge(thread_factor / 2, aggregation_factor * 2);
     }
 }
-
-// void merge_sections_of_array(int arr[], int number, int aggregation) {
-//     for(int i = 0; i < number; i = i + 2) {
-//         int left = i * (NUMBERS_PER_THREAD * aggregation);
-//         int right = ((i + 2) * NUMBERS_PER_THREAD * aggregation) - 1;
-//         int middle = left + (NUMBERS_PER_THREAD * aggregation) - 1;
-//         if (right >= LENGTH) {
-//             right = LENGTH - 1;
-//         }
-//         merge(arr, left, middle, right);
-//     }
-//     if (number / 2 >= 1) {
-//         merge_sections_of_array(arr, number / 2, aggregation * 2);
-//     }
-// }

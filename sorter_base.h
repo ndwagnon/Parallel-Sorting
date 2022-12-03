@@ -12,8 +12,6 @@ public:
     virtual bool VerifySort() = 0;
     virtual void Print() = 0;
     virtual void ReportTiming() = 0;
-    virtual void ReportEfficiency() = 0;
-    virtual void ReportSpeedup() = 0;
     virtual void FillData(int size, int min, int max) = 0;
     virtual void ClearData() = 0;
 
@@ -24,10 +22,6 @@ public:
     virtual bool IsFilled() = 0;
 
 protected:
-    // Helper methods used in computations
-    virtual double ComputeEfficiency() = 0;
-    virtual double ComputeSpeedup() = 0;
-
     // Underlying object data
     // Accessible via getters
     bool isFilled;

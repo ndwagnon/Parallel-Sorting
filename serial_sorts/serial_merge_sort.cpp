@@ -102,16 +102,6 @@ void SerialMergeSort::ReportTiming() {
         size_ << " values in " << exec_time_ms / 1000 << " seconds" << std::endl;
 }
 
-// Report efficiency
-void SerialMergeSort::ReportEfficiency() {
-    std::cout << "Since serial Merge sort uses only 1 core, the efficiency is 1.0" << std::endl;
-}
-
-// Report Speedup
-void SerialMergeSort::ReportSpeedup() {
-    std::cout << "Since serial Merge sort uses only 1 core, the speedup is 1.0" << std::endl;
-}
-
 // Fill the data. If the filename is specified, ingest the data from a file
 void SerialMergeSort::FillData(int size, int min, int max) {
     // Clear the data
@@ -147,17 +137,6 @@ void SerialMergeSort::ClearData() {
 bool SerialMergeSort::IsSorted() { return isSorted; }
 bool SerialMergeSort::IsFilled() { return isFilled; }
 int SerialMergeSort::Size() { return size_; }
-
-// Helper Computation Methods
-double SerialMergeSort::ComputeEfficiency() {
-    // Serial methods have an efficiency of 1 by default
-    return 1.0;
-}
-
-double SerialMergeSort::ComputeSpeedup() {
-    // Serial methods have a speedup of 1 by default
-    return 1.0;
-}
 
 void SerialMergeSort::MergeHalves(int start, int middle, int end) {
     int half_one_size = middle - start + 1;

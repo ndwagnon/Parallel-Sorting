@@ -111,16 +111,6 @@ void SerialInsertionSort::ReportTiming() {
         size_ << " values in " << exec_time_ms / 1000 << " seconds" << std::endl;
 }
 
-// Report efficiency
-void SerialInsertionSort::ReportEfficiency() {
-    std::cout << "Since serial insertion sort uses only 1 core, the efficiency is 1.0" << std::endl;
-}
-
-// Report Speedup
-void SerialInsertionSort::ReportSpeedup() {
-    std::cout << "Since serial insertion sort uses only 1 core, the speedup is 1.0" << std::endl;
-}
-
 // Fill the data. If the filename is specified, ingest the data from a file
 void SerialInsertionSort::FillData(int size, int min, int max) {
     // Clear the data
@@ -156,14 +146,3 @@ void SerialInsertionSort::ClearData() {
 bool SerialInsertionSort::IsSorted() { return isSorted; }
 bool SerialInsertionSort::IsFilled() { return isFilled; }
 int SerialInsertionSort::Size() { return size_; }
-
-// Helper Computation Methods
-double SerialInsertionSort::ComputeEfficiency() {
-    // Serial methods have an efficiency of 1 by default
-    return 1.0;
-}
-
-double SerialInsertionSort::ComputeSpeedup() {
-    // Serial methods have a speedup of 1 by default
-    return 1.0;
-}

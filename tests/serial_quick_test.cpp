@@ -28,7 +28,5 @@ int main() {
     }
 
     mySorter.ReportTiming();
-    mySorter.ReportEfficiency();
-    mySorter.ReportSpeedup();
     return 0;
 }

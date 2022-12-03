@@ -14,8 +14,6 @@ public:
     bool VerifySort() override;
     void Print() override;
     void ReportTiming() override;
-    void ReportEfficiency() override;
-    void ReportSpeedup() override;
     void FillData(int size, int min, int max) override;
     void ClearData() override;
 
@@ -25,16 +23,12 @@ public:
     int Size() override;
     bool IsFilled() override;
 
-protected:
-    // Helper methods used in computations
-    double ComputeEfficiency() override;
-    double ComputeSpeedup() override;
-
 private:
     // Helper functions
     void Swap(int indexA, int indexB);
     int Partition(int low, int high);
     void QuickSortHelper(int low, int high);
+    
     // Underlying data
     int *data;
 

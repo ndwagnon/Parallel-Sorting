@@ -18,8 +18,6 @@ public:
     bool VerifySort() override;
     void Print() override;
     void ReportTiming() override;
-    void ReportEfficiency() override;
-    void ReportSpeedup() override;
     void FillData(int size, int min, int max) override;
     void ClearData() override;
     void SetNumCores(int numCores_a);
@@ -30,11 +28,6 @@ public:
     int Size() override;
     bool IsFilled() override;
     int NumCores();
-
-protected:
-    // Helper methods used in computations
-    double ComputeEfficiency() override;
-    double ComputeSpeedup() override;
 
 private:
     // Helper function to merge two halves

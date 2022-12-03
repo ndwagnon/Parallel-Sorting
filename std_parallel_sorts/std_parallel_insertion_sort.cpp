@@ -109,20 +109,11 @@ void StdParallelInsertionSort::Print() {
 // Report timing
 void StdParallelInsertionSort::ReportTiming() {
     std::cout << "The most recent run used parallel Insertion sort to sort " <<
-        size_ << " values in " << exec_time_ms / 1000 << " seconds" << std::endl;
+        size_ << " values in " << exec_time_ms / 1000 << " seconds" << 
+        " using " << numCores << " cores." << std::endl;
 }
 
-// Report efficiency
-void StdParallelInsertionSort::ReportEfficiency() {
-    std::cout << "Since serial Insertion sort uses only 1 core, the efficiency is 1.0" << std::endl;
-}
-
-// Report Speedup
-void StdParallelInsertionSort::ReportSpeedup() {
-    std::cout << "Since serial Insertion sort uses only 1 core, the speedup is 1.0" << std::endl;
-}
-
-// Fill the data. If the filename is specified, ingest the data from a file
+// Fill the data.
 void StdParallelInsertionSort::FillData(int size, int min, int max) {
     // Clear the data
     ClearData();
@@ -160,17 +151,6 @@ bool StdParallelInsertionSort::IsSorted() { return isSorted; }
 bool StdParallelInsertionSort::IsFilled() { return isFilled; }
 int StdParallelInsertionSort::Size() { return size_; }
 int StdParallelInsertionSort::NumCores() { return numCores; }
-
-// Helper Computation Methods
-double StdParallelInsertionSort::ComputeEfficiency() {
-    // Serial methods have an efficiency of 1 by default
-    return 1.0;
-}
-
-double StdParallelInsertionSort::ComputeSpeedup() {
-    // Serial methods have a speedup of 1 by default
-    return 1.0;
-}
 
 void StdParallelInsertionSort::MergeHalves(int start, int middle, int end) {
     int half_one_size = middle - start + 1;

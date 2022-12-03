@@ -102,16 +102,6 @@ void SerialQuickSort::ReportTiming() {
         size_ << " values in " << exec_time_ms / 1000 << " seconds" << std::endl;
 }
 
-// Report efficiency
-void SerialQuickSort::ReportEfficiency() {
-    std::cout << "Since serial quick sort uses only 1 core, the efficiency is 1.0" << std::endl;
-}
-
-// Report Speedup
-void SerialQuickSort::ReportSpeedup() {
-    std::cout << "Since serial quick sort uses only 1 core, the speedup is 1.0" << std::endl;
-}
-
 // Fill the data. If the filename is specified, ingest the data from a file
 void SerialQuickSort::FillData(int size, int min, int max) {
     // Clear the data
@@ -147,17 +137,6 @@ void SerialQuickSort::ClearData() {
 bool SerialQuickSort::IsSorted() { return isSorted; }
 bool SerialQuickSort::IsFilled() { return isFilled; }
 int SerialQuickSort::Size() { return size_; }
-
-// Helper Computation Methods
-double SerialQuickSort::ComputeEfficiency() {
-    // Serial methods have an efficiency of 1 by default
-    return 1.0;
-}
-
-double SerialQuickSort::ComputeSpeedup() {
-    // Serial methods have a speedup of 1 by default
-    return 1.0;
-}
 
 void SerialQuickSort::Swap(int indexA, int indexB) {
     int temp = data[indexA];

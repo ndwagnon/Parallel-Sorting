@@ -109,17 +109,8 @@ void StdParallelQuickSort::Print() {
 // Report timing
 void StdParallelQuickSort::ReportTiming() {
     std::cout << "The most recent run used parallel Quick sort to sort " <<
-        size_ << " values in " << exec_time_ms / 1000 << " seconds" << std::endl;
-}
-
-// Report efficiency
-void StdParallelQuickSort::ReportEfficiency() {
-    std::cout << "Since serial Quick sort uses only 1 core, the efficiency is 1.0" << std::endl;
-}
-
-// Report Speedup
-void StdParallelQuickSort::ReportSpeedup() {
-    std::cout << "Since serial Quick sort uses only 1 core, the speedup is 1.0" << std::endl;
+        size_ << " values in " << exec_time_ms / 1000 << " seconds" << 
+        " using " << numCores << " cores." << std::endl;
 }
 
 // Fill the data. If the filename is specified, ingest the data from a file
@@ -160,17 +151,6 @@ bool StdParallelQuickSort::IsSorted() { return isSorted; }
 bool StdParallelQuickSort::IsFilled() { return isFilled; }
 int StdParallelQuickSort::Size() { return size_; }
 int StdParallelQuickSort::NumCores() { return numCores; }
-
-// Helper Computation Methods
-double StdParallelQuickSort::ComputeEfficiency() {
-    // Serial methods have an efficiency of 1 by default
-    return 1.0;
-}
-
-double StdParallelQuickSort::ComputeSpeedup() {
-    // Serial methods have a speedup of 1 by default
-    return 1.0;
-}
 
 void StdParallelQuickSort::MergeHalves(int start, int middle, int end) {
     int half_one_size = middle - start + 1;
@@ -228,7 +208,7 @@ void StdParallelQuickSort::QuickSortThreadHelper(int tid) {
             high++;
         }
         while (high > (size_ - 1)) {
-            high --;
+            high--;
         }
     }
     QuickSortHelper(low, high);
@@ -247,8 +227,6 @@ void StdParallelQuickSort::FinalMerge(int thread_factor, int aggregation_factor)
         } else {
             MergeHalves(left, middle, right);
         }
-
-        MergeHalves(left, middle, right);
         
     }
 

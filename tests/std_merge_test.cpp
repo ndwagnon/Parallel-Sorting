@@ -7,8 +7,8 @@
 int main() {
     StdParallelMergeSort mySorter;
 
-    mySorter.FillData(50, 0, 99);
-    mySorter.SetNumCores(4);
+    mySorter.FillData(50000000, 0, 99);
+    mySorter.SetNumCores(1);
 
     if (mySorter.VerifySort()) {
         std::cout << "Sorted!" << std::endl;
@@ -29,7 +29,5 @@ int main() {
     }
 
     mySorter.ReportTiming();
-    mySorter.ReportEfficiency();
-    mySorter.ReportSpeedup();
     return 0;
 }

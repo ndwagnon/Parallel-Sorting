@@ -7,7 +7,7 @@
 int main() {
     SerialMergeSort mySorter;
 
-    mySorter.FillData(50, 0, 99);
+    mySorter.FillData(50000000, 0, 99);
 
     if (mySorter.VerifySort()) {
         std::cout << "Sorted!" << std::endl;
@@ -28,7 +28,5 @@ int main() {
     }
 
     mySorter.ReportTiming();
-    mySorter.ReportEfficiency();
-    mySorter.ReportSpeedup();
     return 0;
 }

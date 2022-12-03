@@ -14,8 +14,6 @@ public:
     bool VerifySort() override;
     void Print() override;
     void ReportTiming() override;
-    void ReportEfficiency() override;
-    void ReportSpeedup() override;
     void FillData(int size, int min, int max) override;
     void ClearData() override;
 
@@ -24,11 +22,6 @@ public:
     bool IsSorted() override;
     int Size() override;
     bool IsFilled() override;
-
-protected:
-    // Helper methods used in computations
-    double ComputeEfficiency() override;
-    double ComputeSpeedup() override;
 
 private:
     // Helper function to merge two halves
