@@ -1,12 +1,12 @@
 // Local Includes
-#include "sorter_base.h"
+#include "../sorter_base.h"
 
-class SerialMergeSort : public SorterBase {
+class SerialQuickSort : public SorterBase {
 public:
     // Constructor and Destructor
-    SerialMergeSort();
-    SerialMergeSort(int size, int min, int max);
-    ~SerialMergeSort();
+    SerialQuickSort();
+    SerialQuickSort(int size, int min, int max);
+    ~SerialQuickSort();
 
     // Basic API calls for testing and reporting
     // results
@@ -31,12 +31,10 @@ protected:
     double ComputeSpeedup() override;
 
 private:
-    // Helper function to merge two halves
-    void MergeHalves(int start, int middle, int end);
-
-    // Helper function to include start/end arguments
-    void MergeSortHelper(int start, int end);
-    
+    // Helper functions
+    void Swap(int indexA, int indexB);
+    int Partition(int low, int high);
+    void QuickSortHelper(int low, int high);
     // Underlying data
     int *data;
 

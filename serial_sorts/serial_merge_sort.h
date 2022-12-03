@@ -1,16 +1,12 @@
 // Local Includes
-#include "sorter_base.h"
+#include "../sorter_base.h"
 
-// Standard Library Includes
-#include <thread>
-#include <vector>
-
-class StdParallelMergeSort : public SorterBase {
+class SerialMergeSort : public SorterBase {
 public:
     // Constructor and Destructor
-    StdParallelMergeSort();
-    StdParallelMergeSort(int size, int min, int max, int numCores_a);
-    ~StdParallelMergeSort();
+    SerialMergeSort();
+    SerialMergeSort(int size, int min, int max);
+    ~SerialMergeSort();
 
     // Basic API calls for testing and reporting
     // results
@@ -22,14 +18,12 @@ public:
     void ReportSpeedup() override;
     void FillData(int size, int min, int max) override;
     void ClearData() override;
-    void SetNumCores(int numCores_a);
 
     // Basic API calls for revealing data 
     // about the underlying object
     bool IsSorted() override;
     int Size() override;
     bool IsFilled() override;
-    int NumCores();
 
 protected:
     // Helper methods used in computations
@@ -42,17 +36,10 @@ private:
 
     // Helper function to include start/end arguments
     void MergeSortHelper(int start, int end);
-
-    void MergeSortThreadHelper(int tid);
-
-    void FinalMerge(int thread_factor, int aggregation_factor);
     
     // Underlying data
     int *data;
 
     // Execution time
     double exec_time_ms;
-
-    // Threads to split the sorting with
-    std::vector<std::thread> threads;
 };

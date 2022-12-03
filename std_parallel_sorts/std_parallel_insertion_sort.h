@@ -1,12 +1,15 @@
 // Local Includes
-#include "sorter_base.h"
+#include "../sorter_base.h"
 
-class SerialQuickSort : public SorterBase {
+#include <thread>
+#include <vector>
+
+class StdParallelInsertionSort : public SorterBase {
 public:
     // Constructor and Destructor
-    SerialQuickSort();
-    SerialQuickSort(int size, int min, int max);
-    ~SerialQuickSort();
+    StdParallelInsertionSort();
+    StdParallelInsertionSort(int size, int min, int max, int numCores_a);
+    ~StdParallelInsertionSort();
 
     // Basic API calls for testing and reporting
     // results
@@ -18,12 +21,14 @@ public:
     void ReportSpeedup() override;
     void FillData(int size, int min, int max) override;
     void ClearData() override;
+    void SetNumCores(int numCores_a);
 
     // Basic API calls for revealing data 
     // about the underlying object
     bool IsSorted() override;
     int Size() override;
     bool IsFilled() override;
+    int NumCores();
 
 protected:
     // Helper methods used in computations
@@ -31,13 +36,18 @@ protected:
     double ComputeSpeedup() override;
 
 private:
-    // Helper functions
-    void Swap(int indexA, int indexB);
-    int Partition(int low, int high);
-    void QuickSortHelper(int low, int high);
+    // Helper functionss
+    void InsertionSortThreadHelper(int tid);
+    void FinalMerge(int thread_factor, int aggregation_factor);
+    void MergeHalves(int start, int middle, int end);
+    void InsertionSortHelper(int low, int high);
+
     // Underlying data
     int *data;
 
     // Execution time
     double exec_time_ms;
+
+    // Threads to split the sorting with
+    std::vector<std::thread> threads;
 };
