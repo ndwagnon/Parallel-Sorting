@@ -43,14 +43,14 @@ int main (int argc, char *argv[]) {
         sendcounts[i] = num_local_elements;
         displs[i] = current_spot;
         current_spot += num_local_elements;
-        if (i < remainders) {
-            ++sendcounts[i];
-            ++current_spot;
+        if (i == numprocs - 1) {
+            sendcounts[i] = sendcounts[i] + remainders;
+            current_spot = current_spot + remainders;
         }
     }
 
-    if (rank < remainders)
-        ++num_local_elements;
+    if (rank == numprocs - 1)
+        num_local_elements += remainders;
 
     // Scatter the global array off to each process
     MPI_Scatterv(global_data, sendcounts, displs, MPI_INT, local_data, num_local_elements, MPI_INT, 0, MPI_COMM_WORLD);
@@ -70,7 +70,7 @@ int main (int argc, char *argv[]) {
 
     // Gather the results
     MPI_Gatherv(local_data, num_local_elements, MPI_INT, global_data, sendcounts, displs, MPI_INT, 0, MPI_COMM_WORLD);
-    if (rank == 0) Print(global_data, GLOBAL_SIZE);
+
     // Perform the final merge and timing
     double exec_time_ms;
     if (rank == 0) {
@@ -140,7 +140,7 @@ void Print(int *data, int size) {
 
 // Report timing
 void ReportTiming(int size, int numCores, double exec_time_ms) {
-    std::cout << "The most recent run used parallel Merge sort to sort " <<
+    std::cout << "The most recent run used parallel MPI Merge sort to sort " <<
         size << " values in " << exec_time_ms / 1000 << " seconds" << 
         " using " << numCores << " cores." << std::endl;
 }
@@ -222,16 +222,9 @@ void FinalMerge(int *data, int core_factor, int aggregation_factor, int size, in
         int left = i * (numbers_per_core * aggregation_factor);
         int right = ((i + 2) * numbers_per_core * aggregation_factor) - 1;
         int middle = left + (numbers_per_core * aggregation_factor) - 1;
-        int j = i;
 
-        while (j < (GLOBAL_SIZE % numCores)) {
-            middle++;
-            right++;
-            j++;
-        }
         if (right >= size)
             right = size - 1;
-        std::cout << "Right: " << right << std::endl;
         
         MergeHalves(data, left, middle, right);      
     }
